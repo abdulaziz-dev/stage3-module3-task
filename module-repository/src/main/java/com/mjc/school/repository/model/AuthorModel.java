@@ -1,10 +1,15 @@
 package com.mjc.school.repository.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "author")
 public class AuthorModel implements BaseEntity<Long>{
 
@@ -17,9 +22,11 @@ public class AuthorModel implements BaseEntity<Long>{
     private String name;
 
     @Column(name = "create_date")
+    @CreatedDate
     private LocalDateTime createDate;
 
     @Column(name = "last_update_date")
+    @LastModifiedDate
     private LocalDateTime lastUpdateDate;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)

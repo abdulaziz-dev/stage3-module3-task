@@ -50,9 +50,6 @@ public class NewsService implements BaseService<NewsRequestDTO, NewsResponseDTO,
         validator.checkNewsDto(createRequest);
         Set<Long> tagIds = createRequest.tagIds();
         NewsModel model = newsMapper.dtoToModel(createRequest);
-        LocalDateTime currentTime = LocalDateTime.now().withNano(0);
-        model.setCreateDate(currentTime);
-        model.setLastUpdateDate(currentTime);
         for (Long id : tagIds){
             if (tagRepository.existById(id)){
                 model.addTag(tagRepository.readById(id).get());
@@ -68,7 +65,6 @@ public class NewsService implements BaseService<NewsRequestDTO, NewsResponseDTO,
         Set<Long> tagIds = updateRequest.tagIds();
         NewsModel model = newsMapper.dtoToModel(updateRequest);
         checkNewsExist(model.getId());
-        model.setLastUpdateDate(LocalDateTime.now().withNano(0));
         for (Long id : tagIds){
             if (tagRepository.existById(id)){
                 model.addTag(tagRepository.readById(id).get());
